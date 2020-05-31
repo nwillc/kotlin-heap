@@ -1,0 +1,8 @@
+.idea
+out
+.gradle
+.gradle.kts
+build
+*.iml
+.java-version
+/test.xlsx
