@@ -10,20 +10,18 @@ import kotlin.random.Random
 class OrderedHeapTest {
     @Test
     fun `should correctly order min heap`() {
-        val size = 13
-        val heap = OrderedHeap.minHeap(13)
+        val heap = OrderedHeap.minHeap(SIZE)
         var goal = Int.MAX_VALUE
-        val random = Random(Instant.now().epochSecond)
         val values = mutableListOf<Int>()
 
-        repeat(size) {
-            val value = random.nextInt(0, 100)
+        repeat(SIZE) {
+            val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
             goal = min(goal, value)
             values.add(value)
             heap += value
         }
         assertThat(heap.peek()).isEqualTo(goal)
-        assertThat(heap.size()).isEqualTo(size)
+        assertThat(heap.size()).isEqualTo(SIZE)
         val popped = mutableListOf<Int>()
         while (heap.size() > 0) {
             popped.add(heap.pop())
@@ -33,24 +31,29 @@ class OrderedHeapTest {
 
     @Test
     fun `should correctly order max heap`() {
-        val size = 13
-        val heap = OrderedHeap.maxHeap(size)
+        val heap = OrderedHeap.maxHeap(SIZE)
         var goal = Int.MIN_VALUE
-        val random = Random(Instant.now().epochSecond)
         val values = mutableListOf<Int>()
 
-        repeat(size) {
-            val value = random.nextInt(0, 100)
+        repeat(SIZE) {
+            val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
             goal = max(goal, value)
             values.add(value)
             heap += value
         }
         assertThat(heap.peek()).isEqualTo(goal)
-        assertThat(heap.size()).isEqualTo(size)
+        assertThat(heap.size()).isEqualTo(SIZE)
         val popped = mutableListOf<Int>()
         while (heap.size() > 0) {
             popped.add(heap.pop())
         }
         assertThat(popped).containsExactlyElementsOf(values.sortedDescending())
+    }
+
+    companion object Features {
+        private const val SIZE = 13
+        private val RANDOM = Random(Instant.now().epochSecond)
+        private const val FROM_RANDOM = 0
+        private const val UNTIL_RANDOM = 100
     }
 }
