@@ -1,9 +1,11 @@
 package com.github.nwillc.datastructures
 
 // Implementation of Min Heap
-class MinHeap : Heap {
+class MinHeap(size: Int = 10) : Heap {
     private var heapSize: Int = 0
-    private val array = mutableListOf(Int.MIN_VALUE)
+    private val array = IntArray(size + 1).also {
+        it[0] = Int.MIN_VALUE
+    }
 
     // Function to remove and return the minimum element from the heap
     override fun pop(): Int {
@@ -23,17 +25,16 @@ class MinHeap : Heap {
         if (array.size > heapSize + 1)
             array[++heapSize] = value
         else {
-            array.add(value)
-            heapSize++
+            error("At max size")
         }
         var current = heapSize
         var parent = parent(current)
         while (parent != 0 && array[current] < array[parent]) {
             swap(current, parent)
-            current = parent.also { parent = parent(parent)}
+            current = parent.also { parent = parent(parent) }
         }
     }
-    
+
     private fun minHeapify(i: Int) {
         val left = left(i)
         val right = right(i)

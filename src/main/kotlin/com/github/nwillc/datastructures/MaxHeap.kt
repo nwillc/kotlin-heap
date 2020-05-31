@@ -1,8 +1,10 @@
 package com.github.nwillc.datastructures
 
-class MaxHeap : Heap {
-    private val array = mutableListOf(0)
+class MaxHeap(size: Int = 10) : Heap {
     private var heapSize = 0
+    private val array = IntArray(size + 1).also {
+        it[0] = Int.MAX_VALUE
+    }
 
     override fun pop(): Int {
         require(size() > 0) { "Heap is empty" }
@@ -20,8 +22,7 @@ class MaxHeap : Heap {
         if (array.size > heapSize + 1)
             array[++heapSize] = value
         else {
-            array.add(value)
-            heapSize++
+            error("At max size")
         }
         var current = heapSize
         var parent = parent(current)

@@ -9,8 +9,8 @@ import kotlin.random.Random
 class MaxHeapTest {
     @Test
     fun `should pop values off in expected order`() {
-        val heap = MaxHeap()
         val size = 13
+        val heap = MaxHeap(size)
         var goal = Int.MIN_VALUE
         val random = Random(Instant.now().epochSecond)
         val values = mutableListOf<Int>()

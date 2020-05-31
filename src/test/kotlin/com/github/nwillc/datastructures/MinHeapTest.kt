@@ -10,8 +10,8 @@ class MinHeapTest {
     // Driver code
     @Test
     fun `should correctly order min heap`() {
-        val heap = MinHeap()
         val size = 13
+        val heap = MinHeap(13)
         var goal = Int.MAX_VALUE
         val random = Random(Instant.now().epochSecond)
         val values = mutableListOf<Int>()
