@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.4-M1"
+    kotlin("jvm") version "1.3.72"
     id("com.github.nwillc.vplugin") version "3.0.5"
     id("io.gitlab.arturbosch.detekt") version "1.9.1"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
@@ -9,7 +9,6 @@ group = "com.github.nwillc"
 version = "1.0-SNAPSHOT"
 
 repositories {
-    maven("https://dl.bintray.com/kotlin/kotlin-eap")
     jcenter()
 }
 
