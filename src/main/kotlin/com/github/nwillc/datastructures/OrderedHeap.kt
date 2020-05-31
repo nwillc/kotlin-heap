@@ -1,13 +1,18 @@
 package com.github.nwillc.datastructures
 
-class OrderedHeap(
-    size: Int = 10,
-    seed: Int = Int.MIN_VALUE,
-    val compare: (Int, Int) -> Boolean = { a, b -> a < b }
+class OrderedHeap private constructor(
+    size: Int,
+    seed: Int,
+    val compare: (Int, Int) -> Boolean
 ) {
     private var heapSize = 0
-    private val array = IntArray(size + 1).also {
-        it[0] = seed
+    private val array = IntArray(size + 1).also { it[0] = seed }
+
+    companion object {
+        private const val FRONT = 1
+
+        fun minHeap(size: Int = 10): OrderedHeap = OrderedHeap(size, Int.MIN_VALUE) { a, b -> a < b }
+        fun maxHeap(size: Int = 10): OrderedHeap = OrderedHeap(size, Int.MAX_VALUE) { a, b -> a > b }
     }
 
     fun pop(): Int {
@@ -15,7 +20,7 @@ class OrderedHeap(
 
         val popped = peek()
         array[FRONT] = array[heapSize--]
-        orderHeapify(FRONT)
+        orderedHeapify(FRONT)
         return popped
     }
 
@@ -37,25 +42,6 @@ class OrderedHeap(
         }
     }
 
-    private fun orderHeapify(i: Int) {
-        val left = left(i)
-        val right = right(i)
-
-        var order = when {
-            left <= heapSize && compare(array[i], array[left]) -> i
-            left <= heapSize -> left
-            else -> i
-        }
-
-        if (right <= heapSize && !compare(array[order], array[right]))
-            order = right
-
-        if (order != i) {
-            swap(order, i)
-            orderHeapify(order)
-        }
-    }
-
     private fun parent(i: Int) = i shr 1
     private fun left(i: Int) = i shl 1
     private fun right(i: Int) = left(i) + 1
@@ -64,18 +50,28 @@ class OrderedHeap(
         array[i] = array[j].also { array[j] = array[i] }
     }
 
+    private tailrec fun orderedHeapify(i: Int) {
+        val left = left(i)
+        val right = right(i)
+
+        var ordered = when {
+            left <= heapSize && compare(array[i], array[left]) -> i
+            left <= heapSize -> left
+            else -> i
+        }
+
+        if (right <= heapSize && !compare(array[ordered], array[right]))
+            ordered = right
+
+        if (ordered != i) {
+            swap(ordered, i)
+            orderedHeapify(ordered)
+        }
+    }
+
     override fun toString(): String {
         return array
             .drop(1)
             .joinToString(", ", "[", "]")
-    }
-
-    companion object {
-        private const val FRONT = 1
-
-        fun minHeap(size: Int = 10): OrderedHeap = OrderedHeap(size)
-        fun maxHeap(size: Int = 10): OrderedHeap = OrderedHeap(
-            size, Int.MAX_VALUE
-        ) { a, b -> a > b }
     }
 }
