@@ -8,4 +8,3 @@ pluginManagement {
     }
 }
 rootProject.name = "data-structures"
-

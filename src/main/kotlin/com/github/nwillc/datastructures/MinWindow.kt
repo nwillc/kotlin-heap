@@ -2,7 +2,6 @@ package com.github.nwillc.datastructures
 
 import java.lang.Math.max
 
-
 class MinWindow(val size: Int = 10) {
     var winMin = Int.MAX_VALUE
     var winMax = Int.MIN_VALUE
@@ -26,7 +25,7 @@ class MinWindow(val size: Int = 10) {
             }
         }
         if (members.count() < size) {
-            winMax = max(winMax,value)
+            winMax = max(winMax, value)
             members.add(value)
         } else if (value < winMax) {
             val priorMax = winMax

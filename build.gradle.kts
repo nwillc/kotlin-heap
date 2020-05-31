@@ -1,5 +1,8 @@
 plugins {
     kotlin("jvm") version "1.4-M1"
+    id("com.github.nwillc.vplugin") version "3.0.5"
+    id("io.gitlab.arturbosch.detekt") version "1.9.1"
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
 
 group = "com.github.nwillc"
@@ -15,6 +18,10 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.0-M1")
     testImplementation("org.assertj:assertj-core:3.16.1")
+}
+
+ktlint {
+    disabledRules.set(setOf("import-ordering"))
 }
 
 tasks {
