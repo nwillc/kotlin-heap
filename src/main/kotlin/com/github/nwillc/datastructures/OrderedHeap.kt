@@ -16,7 +16,7 @@ class OrderedHeap private constructor(
     }
 
     fun pop(): Int {
-        require(size() > 0) { "Heap is empty" }
+        require(heapSize > 0) { "Heap is empty" }
 
         val popped = peek()
         array[FRONT] = array[heapSize--]
@@ -24,7 +24,7 @@ class OrderedHeap private constructor(
         return popped
     }
 
-    fun peek() = if (heapSize != 0) array[1] else error("Heap is empty")
+    fun peek() = if (heapSize > 0) array[1] else error("Heap is empty")
 
     fun size() = heapSize
 
@@ -69,9 +69,5 @@ class OrderedHeap private constructor(
         }
     }
 
-    override fun toString(): String {
-        return array
-            .drop(1)
-            .joinToString(", ", "[", "]")
-    }
+    override fun toString() = array.drop(1).joinToString(", ", "[", "]")
 }
