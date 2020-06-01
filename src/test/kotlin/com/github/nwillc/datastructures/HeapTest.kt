@@ -7,10 +7,24 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
 
-class OrderedHeapTest {
+class HeapTest {
+    @Test
+    fun `should pop and peek`() {
+        val heap = Heap.minHeap(SIZE)
+        heap += 42
+        heap += 5
+        heap += 7
+
+        assertThat(heap.peek()).isEqualTo(5)
+        assertThat(heap.pop()).isEqualTo(5)
+        assertThat(heap.peek()).isEqualTo(7)
+        assertThat(heap.pop()).isEqualTo(7)
+        assertThat(heap.peek()).isEqualTo(42)
+    }
+
     @Test
     fun `should correctly order min heap`() {
-        val heap = OrderedHeap.minHeap(SIZE)
+        val heap = Heap.minHeap(SIZE)
         var goal = Int.MAX_VALUE
         val values = mutableListOf<Int>()
 
@@ -31,7 +45,7 @@ class OrderedHeapTest {
 
     @Test
     fun `should correctly order max heap`() {
-        val heap = OrderedHeap.maxHeap(SIZE)
+        val heap = Heap.maxHeap(SIZE)
         var goal = Int.MIN_VALUE
         val values = mutableListOf<Int>()
 

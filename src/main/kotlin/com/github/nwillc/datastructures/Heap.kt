@@ -1,6 +1,6 @@
 package com.github.nwillc.datastructures
 
-class OrderedHeap private constructor(
+class Heap private constructor(
     size: Int,
     seed: Int,
     val compare: (Int, Int) -> Boolean
@@ -11,8 +11,8 @@ class OrderedHeap private constructor(
     companion object {
         private const val FRONT = 1
 
-        fun minHeap(size: Int = 10): OrderedHeap = OrderedHeap(size, Int.MIN_VALUE) { a, b -> a < b }
-        fun maxHeap(size: Int = 10): OrderedHeap = OrderedHeap(size, Int.MAX_VALUE) { a, b -> a > b }
+        fun minHeap(size: Int = 10): Heap = Heap(size, Int.MIN_VALUE) { a, b -> a < b }
+        fun maxHeap(size: Int = 10): Heap = Heap(size, Int.MAX_VALUE) { a, b -> a > b }
     }
 
     fun pop(): Int {
@@ -20,7 +20,7 @@ class OrderedHeap private constructor(
 
         val popped = peek()
         array[FRONT] = array[heapSize--]
-        orderedHeapify(FRONT)
+        heapify(FRONT)
         return popped
     }
 
@@ -50,7 +50,7 @@ class OrderedHeap private constructor(
         array[i] = array[j].also { array[j] = array[i] }
     }
 
-    private tailrec fun orderedHeapify(i: Int) {
+    private tailrec fun heapify(i: Int) {
         val left = left(i)
         val right = right(i)
 
@@ -65,7 +65,7 @@ class OrderedHeap private constructor(
 
         if (ordered != i) {
             swap(ordered, i)
-            orderedHeapify(ordered)
+            heapify(ordered)
         }
     }
 
