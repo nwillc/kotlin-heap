@@ -42,6 +42,14 @@ class Heap private constructor(
         }
     }
 
+    fun members(): List<Int> {
+        val m = mutableListOf<Int>()
+        for (i in 0 until size()) {
+            m.add(array[i + 1])
+        }
+        return  m
+    }
+
     private fun parent(i: Int) = i shr 1
     private fun left(i: Int) = i shl 1
     private fun right(i: Int) = left(i) + 1
@@ -69,5 +77,5 @@ class Heap private constructor(
         }
     }
 
-    override fun toString() = array.drop(1).joinToString(", ", "[", "]")
+    override fun toString() = members().joinToString(", ", "[", "]")
 }

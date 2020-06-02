@@ -81,8 +81,8 @@ class HeapTest {
 
     companion object Features {
         private const val SIZE = 13
-        private val RANDOM = Random(Instant.now().epochSecond)
-        private const val FROM_RANDOM = 0
-        private const val UNTIL_RANDOM = 100
+        val RANDOM = Random(Instant.now().epochSecond)
+        const val FROM_RANDOM = 0
+        const val UNTIL_RANDOM = 100
     }
 }
