@@ -1,6 +1,7 @@
 package com.github.nwillc.datastructures
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import java.time.Instant
 import kotlin.math.max
@@ -8,6 +9,20 @@ import kotlin.math.min
 import kotlin.random.Random
 
 class HeapTest {
+
+    @Test
+    fun `should respect size bounds`() {
+        val heap = Heap.minHeap(SIZE)
+
+        assertThatThrownBy { heap.pop() }
+            .isInstanceOf(IllegalStateException::class.java)
+
+        repeat(SIZE) { heap += RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM) }
+
+        assertThatThrownBy { heap += 1 }
+            .isInstanceOf(IllegalStateException::class.java)
+    }
+
     @Test
     fun `should pop and peek`() {
         val heap = Heap.minHeap(SIZE)

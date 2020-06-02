@@ -10,13 +10,15 @@ class Heap private constructor(
 
     companion object {
         private const val FRONT = 1
+        private const val MAX_SIZE_ERROR = "At max size"
+        private const val EMPTY_HEAP_ERROR = "Heap is empty"
 
         fun minHeap(size: Int = 10): Heap = Heap(size, Int.MIN_VALUE) { a, b -> a < b }
         fun maxHeap(size: Int = 10): Heap = Heap(size, Int.MAX_VALUE) { a, b -> a > b }
     }
 
     fun pop(): Int {
-        require(heapSize > 0) { "Heap is empty" }
+        require(heapSize > 0) { error(EMPTY_HEAP_ERROR) }
 
         val popped = peek()
         array[FRONT] = array[heapSize--]
@@ -24,16 +26,14 @@ class Heap private constructor(
         return popped
     }
 
-    fun peek() = if (heapSize > 0) array[1] else error("Heap is empty")
+    fun peek() = if (heapSize > 0) array[1] else error(EMPTY_HEAP_ERROR)
 
     fun size() = heapSize
 
     operator fun plusAssign(value: Int) {
-        if (array.size > heapSize + 1)
-            array[++heapSize] = value
-        else {
-            error("At max size")
-        }
+        require(heapSize < array.size - 1) { error(MAX_SIZE_ERROR) }
+
+        array[++heapSize] = value
         var current = heapSize
         var parent = parent(current)
         while (parent != 0 && compare(array[current], array[parent])) {
