@@ -27,6 +27,6 @@ class MinWindow(private val windowSize: Int = 10) {
     fun toList() = minHeap.toList().sorted()
 
     override fun toString(): String {
-        return "{limit=$windowSize, size=${size()}, min=${min()}, max=${max()}, members=${minHeap.toList()}}"
+        return "{limit=$windowSize, size=${size()}, min=${min()}, max=${max()}, members=${toList()}}"
     }
 }
