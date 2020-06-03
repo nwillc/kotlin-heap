@@ -46,29 +46,7 @@ class Heap private constructor(
         }
     }
 
-    operator fun minusAssign(value: Int) {
-        var found = false
-        for (i in 1..size()) {
-            if (array[i] == value) {
-                removeAt(i)
-                found = true
-                break
-            }
-        }
-        if (!found) error("$value not in heap")
-    }
-
     fun toList(): List<Int> = array.drop(1).take(size())
-
-    private fun removeAt(index: Int) {
-        if (index == size()) {
-            heapSize--
-        } else {
-            array[index] = array[size()]
-            heapSize--
-            heapify(index)
-        }
-    }
 
     private fun swap(i: Int, j: Int) {
         array[i] = array[j].also { array[j] = array[i] }
