@@ -1,44 +1,39 @@
 package com.github.nwillc.datastructures
 
-import java.lang.Math.max
+class MinWindow(private val windowSize: Int = 10) {
+    var minHeap = Heap.minHeap(windowSize)
+    var maxHeap = Heap.maxHeap(windowSize)
 
-class MinWindow(val size: Int = 10) {
-    var winMin = Int.MAX_VALUE
-    var winMax = Int.MIN_VALUE
-    val members = HashSet<Int>()
+    fun size() = minHeap.size()
+    fun min() = if (size() > 0) minHeap.peek() else Int.MIN_VALUE
+    fun max() = if (size() > 0) maxHeap.peek() else Int.MAX_VALUE
 
-    fun add(value: Int) {
-        if (members.contains(value))
-            return
+    operator fun plusAssign(value: Int) {
+        if (minHeap.size() < windowSize) {
+            minHeap += value
+            maxHeap += value
+        } else {
+            if (value <= max()) {
+                val newMin = Heap.minHeap(windowSize)
+                val newMax = Heap.maxHeap(windowSize)
 
-        println("--> $value")
-        if (value < winMin) {
-            winMin = value
-            if (members.isEmpty()) {
-                winMax = value
-            }
-            members.add(winMin)
-            if (members.count() > size) {
-                val prior = winMax
-                members.remove(prior)
-                winMax = members.max() ?: prior
-            }
-        }
-        if (members.count() < size) {
-            winMax = max(winMax, value)
-            members.add(value)
-        } else if (value < winMax) {
-            val priorMax = winMax
-            members.add(value)
-            if (members.count() > size) {
-                members.remove(priorMax)
-                winMax = members.max() ?: value
+                newMin += value
+                newMax += value
+                repeat(windowSize - 1) {
+                    val popped = minHeap.pop()
+                    newMin += popped
+                    newMax += popped
+                }
+                minHeap = newMin
+                maxHeap = newMax
             }
         }
-        println(this)
     }
 
+    fun toList() = minHeap.toList().sorted()
+
+    @SuppressWarnings("MaxLineLength")
     override fun toString(): String {
-        return "MinWindow(size=$size, winMin=$winMin, winMax=$winMax, members=$members)"
+        return "{limit=$windowSize, size=${size()}, min=${min()}, max=${max()}, members=${minHeap.toList()}, maxHeap=$maxHeap}"
     }
 }

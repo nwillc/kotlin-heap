@@ -15,6 +15,10 @@ class Heap private constructor(
 
         fun minHeap(size: Int = 10): Heap = Heap(size, Int.MIN_VALUE) { a, b -> a < b }
         fun maxHeap(size: Int = 10): Heap = Heap(size, Int.MAX_VALUE) { a, b -> a > b }
+
+        private fun parent(i: Int) = i shr 1
+        private fun left(i: Int) = i shl 1
+        private fun right(i: Int) = left(i) + 1
     }
 
     fun pop(): Int {
@@ -42,17 +46,7 @@ class Heap private constructor(
         }
     }
 
-    fun members(): List<Int> {
-        val m = mutableListOf<Int>()
-        for (i in 0 until size()) {
-            m.add(array[i + 1])
-        }
-        return  m
-    }
-
-    private fun parent(i: Int) = i shr 1
-    private fun left(i: Int) = i shl 1
-    private fun right(i: Int) = left(i) + 1
+    fun toList(): List<Int> = array.drop(1).take(size())
 
     private fun swap(i: Int, j: Int) {
         array[i] = array[j].also { array[j] = array[i] }
@@ -77,5 +71,5 @@ class Heap private constructor(
         }
     }
 
-    override fun toString() = members().joinToString(", ", "[", "]")
+    override fun toString() = toList().joinToString(", ", "[", "]")
 }
