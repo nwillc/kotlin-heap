@@ -12,28 +12,25 @@ class MinWindow(private val windowSize: Int = 10) {
         if (minHeap.size() < windowSize) {
             minHeap += value
             maxHeap += value
-        } else {
-            if (value <= max()) {
-                val newMin = Heap.minHeap(windowSize)
-                val newMax = Heap.maxHeap(windowSize)
+        } else if (value <= max()) {
+            val newMin = Heap.minHeap(windowSize)
+            val newMax = Heap.maxHeap(windowSize)
 
-                newMin += value
-                newMax += value
-                repeat(windowSize - 1) {
-                    val popped = minHeap.pop()
-                    newMin += popped
-                    newMax += popped
-                }
-                minHeap = newMin
-                maxHeap = newMax
+            repeat(size() - 1) {
+                val popped = minHeap.pop()
+                newMin += popped
+                newMax += popped
             }
+            newMin += value
+            newMax += value
+            minHeap = newMin
+            maxHeap = newMax
         }
     }
 
     fun toList() = minHeap.toList().sorted()
 
-    @SuppressWarnings("MaxLineLength")
     override fun toString(): String {
-        return "{limit=$windowSize, size=${size()}, min=${min()}, max=${max()}, members=${minHeap.toList()}, maxHeap=$maxHeap}"
+        return "{limit=$windowSize, size=${size()}, min=${min()}, max=${max()}, members=${minHeap.toList()}}"
     }
 }
