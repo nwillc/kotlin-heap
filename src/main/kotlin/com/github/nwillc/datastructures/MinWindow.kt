@@ -13,11 +13,10 @@ class MinWindow(private val windowSize: Int = 10) {
             minHeap += value
             maxHeap += value
         } else if (value <= max()) {
-            val newMin = Heap.minHeap(windowSize)
-            val max = maxHeap.pop()
+            val popped = maxHeap.pop()
             maxHeap += value
-            maxHeap.toList().forEach { newMin += it }
-            minHeap = newMin
+            minHeap -= popped
+            minHeap += value
         }
     }
 

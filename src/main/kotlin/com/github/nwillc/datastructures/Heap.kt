@@ -47,12 +47,15 @@ class Heap private constructor(
     }
 
     operator fun minusAssign(value: Int) {
-        for (i in 1 .. size()) {
+        var found = false
+        for (i in 1..size()) {
             if (array[i] == value) {
                 removeAt(i)
+                found = true
                 break
             }
         }
+        if (!found) error("$value not in heap")
     }
 
     fun toList(): List<Int> = array.drop(1).take(size())
