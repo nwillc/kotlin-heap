@@ -64,10 +64,10 @@ class MinWindowTest {
     }
 
     @Test
-    fun `should handle random values`() {
-        val windowSize = 5
-        val sampleSize = 100
+    fun `should handle all sorts of sample lists in random window sizes`() {
         repeat(REPETITIONS) {
+            val sampleSize = RANDOM.nextInt(1, REPETITIONS * 2)
+            val windowSize = RANDOM.nextInt(1, REPETITIONS * 2)
             val window = MinWindow(windowSize)
             val values = mutableListOf<Int>()
 
