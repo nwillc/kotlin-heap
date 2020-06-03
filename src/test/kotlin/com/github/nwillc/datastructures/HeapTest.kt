@@ -79,10 +79,36 @@ class HeapTest {
         assertThat(popped).containsExactlyElementsOf(values.sortedDescending())
     }
 
+    @Test
+    fun `should be able to remove item from heap`() {
+        repeat(REPETITIONS) {
+            val heap = Heap.minHeap(SIZE)
+            val values = mutableListOf<Int>()
+
+            repeat(SIZE) {
+                val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
+                values.add(value)
+                heap += value
+            }
+
+            val target = values.random()
+
+            heap -= target
+
+            val popped = mutableListOf<Int>()
+            while (heap.size() > 0) {
+                popped.add(heap.pop())
+            }
+            values.remove(target)
+            assertThat(popped).containsExactlyElementsOf(values.sorted())
+        }
+    }
+
     companion object Features {
         private const val SIZE = 13
         val RANDOM = Random(Instant.now().epochSecond)
         const val FROM_RANDOM = 0
         const val UNTIL_RANDOM = 100
+        const val REPETITIONS = 20
     }
 }

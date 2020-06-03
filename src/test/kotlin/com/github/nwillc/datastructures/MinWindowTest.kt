@@ -2,6 +2,7 @@ package com.github.nwillc.datastructures
 
 import com.github.nwillc.datastructures.HeapTest.Features.FROM_RANDOM
 import com.github.nwillc.datastructures.HeapTest.Features.RANDOM
+import com.github.nwillc.datastructures.HeapTest.Features.REPETITIONS
 import com.github.nwillc.datastructures.HeapTest.Features.UNTIL_RANDOM
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -66,8 +67,7 @@ class MinWindowTest {
     fun `should handle random values`() {
         val windowSize = 5
         val sampleSize = 20
-        val repetition = 10
-        repeat(repetition) {
+        repeat(REPETITIONS) {
             val window = MinWindow(windowSize)
             val values = mutableListOf<Int>()
 
