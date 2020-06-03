@@ -66,7 +66,7 @@ class MinWindowTest {
     @Test
     fun `should handle random values`() {
         val windowSize = 5
-        val sampleSize = 20
+        val sampleSize = 100
         repeat(REPETITIONS) {
             val window = MinWindow(windowSize)
             val values = mutableListOf<Int>()
@@ -76,7 +76,7 @@ class MinWindowTest {
             }
 
             values.forEach { window += it }
-            assertThat(window.toList()).containsExactlyElementsOf(values.sorted().take(5))
+            assertThat(window.toList()).containsExactlyElementsOf(values.sorted().take(windowSize))
         }
     }
 }
