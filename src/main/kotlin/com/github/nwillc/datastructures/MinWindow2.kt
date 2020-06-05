@@ -1,7 +1,5 @@
 package com.github.nwillc.datastructures
 
-import java.util.PriorityQueue
-
 class MinWindow2(private val windowSize: Int = 10) {
     private var minHeap = PQHeap.minHeap<Int>()
     private val maxHeap = PQHeap.maxHeap<Int>()

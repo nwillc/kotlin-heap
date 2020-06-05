@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import java.time.Instant
-import java.util.PriorityQueue
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
@@ -18,7 +17,7 @@ class HeapTest {
         assertThatThrownBy { heap.pop() }
             .isInstanceOf(IllegalStateException::class.java)
 
-        repeat(SIZE) { heap.add(RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM))}
+        repeat(SIZE) { heap.add(RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)) }
 
         assertThatThrownBy { heap.add(1) }
             .isInstanceOf(IllegalStateException::class.java)
@@ -136,6 +135,87 @@ class HeapTest {
         assertThat(popped).containsExactlyElementsOf(values.sortedDescending())
     }
 
+//    @Test
+//    fun `should be able to remove item from heap`() {
+//        var failed = 0
+//        val repetitions = REPETITIONS * 10
+//        repeat(repetitions) { repetition ->
+//            val size = RANDOM.nextInt(4, SIZE * 2)
+//            val heap = Heap.minHeap(size)
+//            val values = mutableListOf<Int>()
+//
+//            repeat(size) {
+//                val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
+//                values.add(value)
+//                heap.add(value)
+//            }
+//
+//            val target = values.random()
+//            val indexOf = values.indexOf(target)
+//            val before = heap.toList()
+//            heap.remove(target)
+//            val after = heap.toList()
+//            val popped = mutableListOf<Int>()
+//            while (heap.size() > 0) {
+//                popped.add(heap.pop())
+//            }
+//            values.remove(target)
+//            try {
+//                assertThat(popped).containsExactlyElementsOf(values.sorted())
+//                println("Passed $repetition: size=$size, removed=$target, index=$indexOf")
+//            } catch (e: AssertionError) {
+//                failed++
+//                println("Failed $repetition: size=$size, removed=$target, index=$indexOf")
+//                println("Values: ${values.sorted()}")
+//                println("Popped: $popped")
+//                println("Before: $before")
+//                println("After:  $after")
+//            }
+//        }
+//        assertThat(failed).describedAs("Failed $failed of $repetitions repetitions").isEqualTo(0)
+//    }
+
+    @Test
+    fun `should be able to remove item from pqheap`() {
+        var failed = 0
+        val repetitions = REPETITIONS * 10
+        repeat(repetitions) { repetition ->
+            val size = RANDOM.nextInt(4, SIZE * 2)
+            val heap = PQHeap.minHeap<Int>()
+            val values = mutableListOf<Int>()
+
+            repeat(size) {
+                val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
+                values.add(value)
+                heap.add(value)
+            }
+
+            val target = values.random()
+            val indexOf = values.indexOf(target)
+            val before = heap.toList()
+            heap.remove(target)
+            val after = heap.toList()
+            val popped = mutableListOf<Int>()
+            while (heap.size > 0) {
+                popped.add(heap.pop())
+            }
+            values.remove(target)
+            try {
+                assertThat(popped).containsExactlyElementsOf(values.sorted())
+                println("Passed $repetition: size=$size, removed=$target, index=$indexOf")
+            } catch (e: AssertionError) {
+                failed++
+                println("Failed $repetition: size=$size, removed=$target, index=$indexOf")
+                println("Values: ${values.sorted()}")
+                println("Popped: $popped")
+                println("Before: $before")
+                println("After:  $after")
+            }
+        }
+        assertThat(failed).describedAs("Failed $failed of $repetitions repetitions").isEqualTo(0)
+    }
+
+
     companion object Features {
         private const val SIZE = 13
         val RANDOM = Random(Instant.now().epochSecond)
@@ -144,3 +224,5 @@ class HeapTest {
         const val REPETITIONS = 50
     }
 }
+
+inline fun <reified T : Comparable<T>> arrayOf(size: Int, seed: T): Array<T> = Array(size) { _ -> seed }

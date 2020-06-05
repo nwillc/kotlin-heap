@@ -8,12 +8,6 @@ class PQHeap<T: Comparable<T>> private constructor(comparator: Comparator<T>) : 
     companion object {
         fun <T: Comparable<T>> minHeap() = PQHeap(MinHeapComparator<T>())
         fun <T: Comparable<T>> maxHeap() = PQHeap(MaxHeapComparator<T>())
-        private class MinHeapComparator<T: Comparable<T>>: Comparator<T> {
-                override fun compare(o1: T, o2: T): Int = o1.compareTo(o2)
-            }
-        private class MaxHeapComparator<T: Comparable<T>>: Comparator<T> {
-            override fun compare(o1: T, o2: T): Int = o2.compareTo(o1)
-        }
     }
 
     override val size: Int
