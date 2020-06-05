@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import java.time.Instant
+import java.util.PriorityQueue
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
@@ -38,6 +39,20 @@ class HeapTest {
     }
 
     @Test
+    fun `should pop and peek PriorityQueue`() {
+        val heap = PriorityQueue<Int>()
+        heap += 42
+        heap += 5
+        heap += 7
+
+        assertThat(heap.peek()).isEqualTo(5)
+        assertThat(heap.pop()).isEqualTo(5)
+        assertThat(heap.peek()).isEqualTo(7)
+        assertThat(heap.pop()).isEqualTo(7)
+        assertThat(heap.peek()).isEqualTo(42)
+    }
+
+    @Test
     fun `should correctly order min heap`() {
         val heap = Heap.minHeap(SIZE)
         var goal = Int.MAX_VALUE
@@ -59,8 +74,50 @@ class HeapTest {
     }
 
     @Test
+    fun `should correctly order min PriorityQueue`() {
+        val heap = PriorityQueue<Int>()
+        var goal = Int.MAX_VALUE
+        val values = mutableListOf<Int>()
+
+        repeat(SIZE) {
+            val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
+            goal = min(goal, value)
+            values.add(value)
+            heap += value
+        }
+        assertThat(heap.peek()).isEqualTo(goal)
+        assertThat(heap.size()).isEqualTo(SIZE)
+        val popped = mutableListOf<Int>()
+        while (heap.size() > 0) {
+            popped.add(heap.pop())
+        }
+        assertThat(popped).containsExactlyElementsOf(values.sorted())
+    }
+
+    @Test
     fun `should correctly order max heap`() {
         val heap = Heap.maxHeap(SIZE)
+        var goal = Int.MIN_VALUE
+        val values = mutableListOf<Int>()
+
+        repeat(SIZE) {
+            val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
+            goal = max(goal, value)
+            values.add(value)
+            heap += value
+        }
+        assertThat(heap.peek()).isEqualTo(goal)
+        assertThat(heap.size()).isEqualTo(SIZE)
+        val popped = mutableListOf<Int>()
+        while (heap.size() > 0) {
+            popped.add(heap.pop())
+        }
+        assertThat(popped).containsExactlyElementsOf(values.sortedDescending())
+    }
+
+    @Test
+    fun `should correctly order max PriorityQueue`() {
+        val heap = PriorityQueue(MaxHeapComparator())
         var goal = Int.MIN_VALUE
         val values = mutableListOf<Int>()
 
