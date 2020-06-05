@@ -34,7 +34,7 @@ class Heap private constructor(
 
     fun size() = heapSize
 
-    operator fun plusAssign(value: Int) {
+    fun add(value: Int) {
         require(heapSize < array.size - 1) { error(MAX_SIZE_ERROR) }
 
         array[++heapSize] = value

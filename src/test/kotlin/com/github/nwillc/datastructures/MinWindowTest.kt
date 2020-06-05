@@ -12,11 +12,11 @@ class MinWindowTest {
     fun `should accept values`() {
         val window = MinWindow(5)
 
-        window += 10
-        window += 9
-        window += 2
-        window += 8
-        window += 5
+        window.add(10)
+        window.add(9)
+        window.add(2)
+        window.add(8)
+        window.add(5)
 
         assertThat(window.toList()).containsExactly(2, 5, 8, 9, 10)
     }
@@ -25,12 +25,12 @@ class MinWindowTest {
     fun `should ignore a value over range`() {
         val window = MinWindow(5)
 
-        window += 10
-        window += 9
-        window += 2
-        window += 8
-        window += 5
-        window += 20
+        window.add(10)
+        window.add(9)
+        window.add(2)
+        window.add(8)
+        window.add(5)
+        window.add(20)
 
         assertThat(window.toList()).containsExactly(2, 5, 8, 9, 10)
     }
@@ -39,12 +39,12 @@ class MinWindowTest {
     fun `should add a value at bottom of range`() {
         val window = MinWindow(5)
 
-        window += 10
-        window += 9
-        window += 2
-        window += 8
-        window += 5
-        window += 1
+        window.add(10)
+        window.add(9)
+        window.add(2)
+        window.add(8)
+        window.add(5)
+        window.add(1)
 
         assertThat(window.toList()).containsExactly(1, 2, 5, 8, 9)
     }
@@ -53,12 +53,12 @@ class MinWindowTest {
     fun `should add a value middle of range`() {
         val window = MinWindow(5)
 
-        window += 10
-        window += 9
-        window += 2
-        window += 8
-        window += 5
-        window += 3
+        window.add(10)
+        window.add(9)
+        window.add(2)
+        window.add(8)
+        window.add(5)
+        window.add(3)
 
         assertThat(window.toList()).containsExactly(2, 3, 5, 8, 9)
     }
@@ -75,7 +75,7 @@ class MinWindowTest {
                 values.add(RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM))
             }
 
-            values.forEach { window += it }
+            values.forEach { window.add(it) }
             assertThat(window.toList()).containsExactlyElementsOf(values.sorted().take(windowSize))
         }
     }

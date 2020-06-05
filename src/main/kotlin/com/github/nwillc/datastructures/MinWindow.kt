@@ -8,17 +8,17 @@ class MinWindow(private val windowSize: Int = 10) {
     fun min() = if (size() > 0) minHeap.peek() else Int.MIN_VALUE
     fun max() = if (size() > 0) maxHeap.peek() else Int.MAX_VALUE
 
-    operator fun plusAssign(value: Int) {
+    fun add(value: Int) {
         if (minHeap.size() < windowSize) {
-            minHeap += value
-            maxHeap += value
+            minHeap.add(value)
+            maxHeap.add(value)
         } else if (value <= max()) {
             maxHeap.pop()
-            maxHeap += value
+            maxHeap.add(value)
             // If the Heap had a remove we could adjust the minHeap...but instead will replace
             val newMinHeap = Heap.minHeap(windowSize)
             maxHeap.toList().forEach {
-                newMinHeap += it
+                newMinHeap.add(it)
             }
             minHeap = newMinHeap
         }

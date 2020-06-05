@@ -18,18 +18,18 @@ class HeapTest {
         assertThatThrownBy { heap.pop() }
             .isInstanceOf(IllegalStateException::class.java)
 
-        repeat(SIZE) { heap += RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM) }
+        repeat(SIZE) { heap.add(RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM))}
 
-        assertThatThrownBy { heap += 1 }
+        assertThatThrownBy { heap.add(1) }
             .isInstanceOf(IllegalStateException::class.java)
     }
 
     @Test
     fun `should pop and peek`() {
         val heap = Heap.minHeap(SIZE)
-        heap += 42
-        heap += 5
-        heap += 7
+        heap.add(42)
+        heap.add(5)
+        heap.add(7)
 
         assertThat(heap.peek()).isEqualTo(5)
         assertThat(heap.pop()).isEqualTo(5)
@@ -39,11 +39,11 @@ class HeapTest {
     }
 
     @Test
-    fun `should pop and peek PriorityQueue`() {
-        val heap = PriorityQueue<Int>()
-        heap += 42
-        heap += 5
-        heap += 7
+    fun `should pop and peek PQHeap`() {
+        val heap = PQHeap.minHeap<Int>()
+        heap.add(42)
+        heap.add(5)
+        heap.add(7)
 
         assertThat(heap.peek()).isEqualTo(5)
         assertThat(heap.pop()).isEqualTo(5)
@@ -62,7 +62,7 @@ class HeapTest {
             val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
             goal = min(goal, value)
             values.add(value)
-            heap += value
+            heap.add(value)
         }
         assertThat(heap.peek()).isEqualTo(goal)
         assertThat(heap.size()).isEqualTo(SIZE)
@@ -75,7 +75,7 @@ class HeapTest {
 
     @Test
     fun `should correctly order min PriorityQueue`() {
-        val heap = PriorityQueue<Int>()
+        val heap = PQHeap.minHeap<Int>()
         var goal = Int.MAX_VALUE
         val values = mutableListOf<Int>()
 
@@ -83,12 +83,12 @@ class HeapTest {
             val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
             goal = min(goal, value)
             values.add(value)
-            heap += value
+            heap.add(value)
         }
         assertThat(heap.peek()).isEqualTo(goal)
-        assertThat(heap.size()).isEqualTo(SIZE)
+        assertThat(heap.size).isEqualTo(SIZE)
         val popped = mutableListOf<Int>()
-        while (heap.size() > 0) {
+        while (heap.size > 0) {
             popped.add(heap.pop())
         }
         assertThat(popped).containsExactlyElementsOf(values.sorted())
@@ -104,7 +104,7 @@ class HeapTest {
             val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
             goal = max(goal, value)
             values.add(value)
-            heap += value
+            heap.add(value)
         }
         assertThat(heap.peek()).isEqualTo(goal)
         assertThat(heap.size()).isEqualTo(SIZE)
@@ -117,7 +117,7 @@ class HeapTest {
 
     @Test
     fun `should correctly order max PriorityQueue`() {
-        val heap = PriorityQueue(MaxHeapComparator())
+        val heap = PQHeap.maxHeap<Int>()
         var goal = Int.MIN_VALUE
         val values = mutableListOf<Int>()
 
@@ -125,12 +125,12 @@ class HeapTest {
             val value = RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM)
             goal = max(goal, value)
             values.add(value)
-            heap += value
+            heap.add(value)
         }
         assertThat(heap.peek()).isEqualTo(goal)
-        assertThat(heap.size()).isEqualTo(SIZE)
+        assertThat(heap.size).isEqualTo(SIZE)
         val popped = mutableListOf<Int>()
-        while (heap.size() > 0) {
+        while (heap.size > 0) {
             popped.add(heap.pop())
         }
         assertThat(popped).containsExactlyElementsOf(values.sortedDescending())

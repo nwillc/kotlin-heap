@@ -75,7 +75,7 @@ class MinWindow2Test {
                 values.add(RANDOM.nextInt(FROM_RANDOM, UNTIL_RANDOM))
             }
 
-            values.forEach { window += it }
+            values.forEach { window.add(it) }
             assertThat(window.toList()).containsExactlyElementsOf(values.sorted().take(windowSize))
         }
     }

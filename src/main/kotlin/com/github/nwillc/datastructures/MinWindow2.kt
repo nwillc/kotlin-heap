@@ -3,8 +3,8 @@ package com.github.nwillc.datastructures
 import java.util.PriorityQueue
 
 class MinWindow2(private val windowSize: Int = 10) {
-    private var minHeap = PriorityQueue<Int>()
-    private val maxHeap = PriorityQueue(MaxHeapComparator())
+    private var minHeap = PQHeap.minHeap<Int>()
+    private val maxHeap = PQHeap.maxHeap<Int>()
 
     fun size() = minHeap.size
     fun min() = if (size() > 0) minHeap.peek() else Int.MIN_VALUE
@@ -15,7 +15,7 @@ class MinWindow2(private val windowSize: Int = 10) {
             minHeap.add(value)
             maxHeap.add(value)
         } else if (value <= max()) {
-            val popped = maxHeap.pop()!!
+            val popped = maxHeap.pop()
             maxHeap.add(value)
             minHeap.remove(popped)
             minHeap.add(value)
@@ -29,6 +29,4 @@ class MinWindow2(private val windowSize: Int = 10) {
     }
 }
 
-class MaxHeapComparator: Comparator<Int> {
-    override fun compare(o1: Int, o2: Int): Int = o2 - o1
-}
+
