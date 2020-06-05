@@ -2,7 +2,7 @@ package com.github.nwillc.datastructures
 
 import java.util.PriorityQueue
 
-class PQHeap<T: Comparable<T>>(comparator: Comparator<T>) : HeapI<T> {
+class PQHeap<T: Comparable<T>> private constructor(comparator: Comparator<T>) : HeapI<T> {
     private val priorityQueue: PriorityQueue<T> = PriorityQueue(comparator)
 
     companion object {
@@ -19,9 +19,7 @@ class PQHeap<T: Comparable<T>>(comparator: Comparator<T>) : HeapI<T> {
     override val size: Int
         get() = priorityQueue.size
 
-    override fun add(value: T) {
-        priorityQueue.add(value)
-    }
+    override fun add(value: T) = priorityQueue.add(value)
 
     override fun pop(): T = priorityQueue.poll()
 
