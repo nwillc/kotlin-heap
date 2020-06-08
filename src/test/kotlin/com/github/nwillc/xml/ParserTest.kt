@@ -66,7 +66,7 @@ class ParserTest {
 
         val node = Parser.parse(tokens)
         assertThat(node).isInstanceOf(TagNode::class.java)
-        with (node as TagNode) {
+        with(node as TagNode) {
             assertThat(tag).isEqualTo(tag)
             assertThat(children).hasSize(1)
             val child = children[0]
@@ -93,6 +93,28 @@ class ParserTest {
             assertThat(tag).isEqualTo(tag1)
             assertThat(children).hasSize(1)
             assertThat((children[0] as TagNode).tag).isEqualTo(tag2)
+        }
+    }
+
+    @Test
+    fun `should handle tag lists`() {
+        val tag1 = "HTML"
+        val tag2 = "P"
+
+        val tokens = listOf(
+            TagToken(tag1, TokenType.TAG_BEGIN),
+            TagToken(tag2, TokenType.TAG_BEGIN),
+            TagToken(tag2, TokenType.TAG_END),
+            TagToken(tag2, TokenType.TAG_BEGIN),
+            TagToken(tag2, TokenType.TAG_END),
+            TagToken(tag1, TokenType.TAG_END)
+        )
+
+        val node = Parser.parse(tokens)
+        assertThat(node).isInstanceOf(TagNode::class.java)
+        with(node as TagNode) {
+            assertThat(tag).isEqualTo(tag1)
+            assertThat(children).hasSize(2)
         }
     }
 }
