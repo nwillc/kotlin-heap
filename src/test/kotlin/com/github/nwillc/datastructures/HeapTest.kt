@@ -215,7 +215,6 @@ class HeapTest {
         assertThat(failed).describedAs("Failed $failed of $repetitions repetitions").isEqualTo(0)
     }
 
-
     companion object Features {
         private const val SIZE = 13
         val RANDOM = Random(Instant.now().epochSecond)

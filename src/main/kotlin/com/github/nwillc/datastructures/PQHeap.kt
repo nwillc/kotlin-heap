@@ -2,12 +2,12 @@ package com.github.nwillc.datastructures
 
 import java.util.PriorityQueue
 
-class PQHeap<T: Comparable<T>> private constructor(comparator: Comparator<T>) : HeapI<T> {
+class PQHeap<T : Comparable<T>> private constructor(comparator: Comparator<T>) : HeapI<T> {
     private val priorityQueue: PriorityQueue<T> = PriorityQueue(comparator)
 
     companion object {
-        fun <T: Comparable<T>> minHeap() = PQHeap(MinHeapComparator<T>())
-        fun <T: Comparable<T>> maxHeap() = PQHeap(MaxHeapComparator<T>())
+        fun <T : Comparable<T>> minHeap() = PQHeap(MinHeapComparator<T>())
+        fun <T : Comparable<T>> maxHeap() = PQHeap(MaxHeapComparator<T>())
     }
 
     override val size: Int

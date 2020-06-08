@@ -26,5 +26,3 @@ class MinWindow2(private val windowSize: Int = 10) {
         return "{limit=$windowSize, size=${size()}, min=${min()}, max=${max()}, members=${toList()}}"
     }
 }
-
-
