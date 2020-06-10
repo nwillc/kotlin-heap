@@ -20,6 +20,7 @@ dependencies {
 }
 
 ktlint {
+    version.set("0.37.0")
     disabledRules.set(setOf("import-ordering"))
 }
 
