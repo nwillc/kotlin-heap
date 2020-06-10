@@ -15,19 +15,15 @@ object Parser {
         val nodes = mutableListOf<Node>()
         while (iterator.hasNext()) {
             val token = iterator.next()
-
-            if (token is TagToken) {
-                if (token.tokenType == TokenType.TAG_END) {
-                    if (token.value == tag) {
+            when (token.tokenType) {
+                TokenType.BODY -> nodes += BodyNode((token as BodyToken).value)
+                TokenType.TAG_BEGIN -> nodes += inTag((token as TagToken).value, iterator)
+                TokenType.TAG_END -> {
+                    with(token as TagToken) {
+                        require(value == tag) { "Miss-matched begin/end $tag/$value" }
                         return TagNode(tag, nodes)
-                    } else {
-                        throw IllegalArgumentException("Miss-matched begin/end $tag/${token.value}")
                     }
-                } else {
-                    nodes += inTag(token.value, iterator)
                 }
-            } else {
-                nodes += BodyNode((token as BodyToken).value)
             }
         }
         throw IllegalArgumentException("Hanging open tag <$tag>")
